@@ -4,6 +4,7 @@ import { ConfigService } from '@nestjs/config';
 import * as morgan from 'morgan';
 import { CORS } from './config/cors';
 import { Logger } from '@nestjs/common';
+import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 
 async function bootstrap() {
   
@@ -18,7 +19,18 @@ async function bootstrap() {
 
   //Seteamos el puerto como variable de entorno:
   const configService = app.get(ConfigService);
-  const PORT = configService.get('PORT')
+  const PORT = configService.get('PORT');
+
+  //Configuracion SWAGGER (Documentacion):
+  const config = new DocumentBuilder()
+    .setTitle('Super-Market Documentacion')
+    .setDescription('Descripcion del Backend')
+    .setVersion('0.0')
+    .addTag('Routes')
+    .build();
+  const document = SwaggerModule.createDocument(app, config);
+  SwaggerModule.setup('api/docs', app, document);
+
  
   //Seteamos el prefijo para todas lass rutas: API
   app.setGlobalPrefix('api');
