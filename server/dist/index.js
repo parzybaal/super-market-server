@@ -4,6 +4,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = __importDefault(require("express"));
+const morgan_1 = __importDefault(require("morgan"));
+const users_routes_1 = __importDefault(require("./apiSections/Usuarios/Infraestructura/routes/users.routes"));
 const app = (0, express_1.default)();
 app.use(express_1.default.json());
+app.use(express_1.default.urlencoded({ extended: true }));
+app.use((0, morgan_1.default)('dev'));
+// Rutas:
+app.use('/api/users', users_routes_1.default);
 app.listen(3000, () => console.log('Servidor up'));
