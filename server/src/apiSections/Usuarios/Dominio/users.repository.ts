@@ -1,6 +1,7 @@
-import { PrismaClient, User } from '@prisma/client';
+import { Prisma, PrismaClient, User } from '@prisma/client';
 
 export interface UserRepository {
+  getProfileById(id: string): Promise<User>;
   getUsers(): Promise<User[]>;
   createUser(data: Prisma.UserCreateInput): Promise<User>;
   updateUser(id: number, data: Prisma.UserUpdateInput): Promise<User>;
@@ -14,15 +15,19 @@ export class PrismaUserRepository implements UserRepository {
     return this.prisma.user.findMany();
   }
 
+  async getProfileById(id: string) {
+    return this.prisma.user.find({where: { id } });
+  }
+
   async createUser(data: Prisma.UserCreateInput): Promise<User> {
     return this.prisma.user.create({ data });
   }
 
-  async updateUser(id: number, data: Prisma.UserUpdateInput): Promise<User> {
+  async updateUser(id: string, data: Prisma.UserUpdateInput): Promise<User> {
     return this.prisma.user.update({ where: { id }, data });
   }
 
-  async deleteUser(id: number): Promise<User> {
+  async deleteUser(id: string): Promise<User> {
     return this.prisma.user.delete({ where: { id } });
   }
 }

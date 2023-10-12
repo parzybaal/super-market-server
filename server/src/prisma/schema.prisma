@@ -6,16 +6,82 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
 
 model User {
-  id Int @id @default(autoincrement())
+  id String @id
   email String @unique
+  role Role @default(USER) 
   first_name String
   last_name String
-  //Llamamos al modelo post para terminar de vincularlo
-  //No se muestra 
+  carts Cart[]
+  reviews Reviews[]
+  created_at DateTime
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+model Cart {
+  id String @id
+  ownerId String
+  owner User @relation(fields: [ownerId], references: [id])
+  products CartItem[]
+}
+
+model CartItem {
+  id String @id
+  cartId String
+  productId String
+  quantity Int
+  cart Cart @relation(fields: [cartId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
+}
+
+model Product {
+  id String @id
+  title String
+  categories ProductCategory[]
+  price Int
+  sold_quantity Int
+  stock Int
+  description String
+  sale Boolean
+  catalog_listing Boolean
+  discount Int
+  sale_price Int
+  //attributes 
+  reviews Reviews[]
+  carts CartItem[]
+  image String
+}
+
+model Reviews {
+  id String @id
+  rating Int
+  description String
+  created_at DateTime
+  userid String
+  user User @relation(fields: [userid], references: [id])
+  productId  String
+  product Product  @relation(fields: [productId], references: [id])
+}
+
+model Category {
+  id String @id
+  name String
+  sub_category String
+  products ProductCategory[]
+}
+
+model ProductCategory {
+  categoryId String @id
+  productId String
+  category Category @relation(fields: [categoryId], references: [id])
+  product Product @relation(fields: [productId], references: [id])
 }
