@@ -1,4 +1,4 @@
-import { Prisma, PrismaClient } from '@prisma/client';
+import { PrismaClient, User as PrismaUser, Prisma } from '@prisma/client';
 import { UserRepository } from '../../Dominio/users.repository';
 
 export class UserService {
@@ -14,24 +14,28 @@ export class UserService {
     return this.userRepository.getUsers();
   }
 
-  async createUser(data: Prisma.UserCreateInput) {
+  async createUser(data: Prisma.UserCreateInput): Promise<PrismaUser> {
     const user = await this.userRepository.createUser(data);
     return user;
   }
 
-  async getProfile(id: string) {
+  async validateEmail(email: string): Promise<PrismaUser | null> {
+    const user = await this.userRepository.validateEmail(email)
+    return user
+  }
+
+  async getProfile(id: string): Promise<PrismaUser | null> {
     const user = await this.userRepository.getProfileById(id);
     return user;
   }
 
-  async updateUser(id: string, data: Prisma.UserCreateInput) {
+  async updateUser(id: string, data: Prisma.UserUpdateInput): Promise<PrismaUser> {
     return this.userRepository.updateUser(id, data);
   }
 
-  async deleteUser(id: string) {
+  async deleteUser(id: string): Promise<PrismaUser> {
     return this.userRepository.deleteUser(id);
   }
-
 }
 
 export { UserRepository };

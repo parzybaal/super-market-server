@@ -19,7 +19,7 @@ model User {
   last_name String
   carts Cart[]
   reviews Reviews[]
-  created_at DateTime
+  created_at DateTime @default(now())
 }
 
 enum Role {
