@@ -1,7 +1,7 @@
 import { Router } from 'express'
 
 import { getAllProducts } from '../controllers/getAllProducts.controller'
-import { getProdsByCategoy } from '../controllers/getProdsByCategoy.controller'
+import { getProdsByCategory } from '../controllers/getProdsByCategory.controller'
 import { getProdById } from '../controllers/getProdById.controller'
 
 const router = Router()
@@ -10,7 +10,7 @@ const router = Router()
 router.get('/', getAllProducts)
 
 // Listar por cateogria:
-router.get('/category', getProdsByCategoy)
+router.get('/category', getProdsByCategory)
 
 // Listar producto en especifico:
 router.get('/:id', getProdById)

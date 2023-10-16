@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { userService } from "../../Aplicacion/instance"
+import { userService } from "../../Aplicacion/UserInstance"
 
 export const updateProfile = async (req: Request, res: Response) =>{
     try {
