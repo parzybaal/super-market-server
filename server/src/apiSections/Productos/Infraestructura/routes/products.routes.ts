@@ -7,13 +7,13 @@ import { getProdById } from '../controllers/getProdById.controller'
 const router = Router()
 
 // Listar todos los productos:
-router.get('', getAllProducts)
+router.get('/', getAllProducts)
 
 // Listar por cateogria:
-router.get('', getProdsByCategoy)
+router.get('/category', getProdsByCategoy)
 
 // Listar producto en especifico:
-router.get('', getProdById)
+router.get('/:id', getProdById)
 
 
 export default router
