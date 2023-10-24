@@ -1,14 +1,14 @@
 import { Request, Response } from "express"
-import { productManagerService } from "../../Aplicacion/ProductManagerInstance"
+import { productManagerService } from '../../Aplicacion/ProductManagerInstance'
 
-export const getProdById = async (req: Request, res: Response) => {
+export const deleteProd = async (req: Request, res: Response) => {
     try {
         const productId = req.params.id
 
-        const product = await productManagerService.getProductById(productId);
+        const deleted = await productManagerService.deleteProduct(productId);
 
-        if (product) {
-            res.status(200).send(product)
+        if (deleted) {
+            res.status(204).send()
         } else {
             res.status(404).send({ message: 'Producto no encontrado' })
         }

@@ -4,6 +4,9 @@ export interface ProductManagerRepository {
     getAllProducts(): Promise<PrismaProductM[]>
     getProductById(id: string): Promise<PrismaProductM | null>
     getCategoryProducts(category: string): Promise<PrismaProductM[]>
+    createProduct(newProd: PrismaProductM): Promise<PrismaProductM>
+    updateProduct(id: string, updatedProductData: PrismaProductM): Promise<PrismaProductM | null>
+    deleteProduct(id: string): Promise<boolean>;
 }
 
 export class PrismaProductManagerRepository implements ProductManagerRepository {
@@ -30,4 +33,25 @@ export class PrismaProductManagerRepository implements ProductManagerRepository 
             }
         });
       }
+
+      async createProduct(newProd: PrismaProductM): Promise<PrismaProductM> {
+        return this.prisma.product.create({ data: newProd });
+    }
+
+    async updateProduct(id: string, updatedProductData: PrismaProductM): Promise<PrismaProductM | null> {
+        const updatedProduct = await this.prisma.product.update({
+            where: { id },
+            data: updatedProductData,
+        });
+
+        return updatedProduct;
+    }
+
+    async deleteProduct(id: string): Promise<boolean> {
+        await this.prisma.product.delete({
+            where: { id },
+        });
+    
+        return true
+    }
 }
