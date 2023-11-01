@@ -10,7 +10,7 @@ const router = Router()
 router.get('/', getAllProducts)
 
 // Listar por cateogria:
-router.get('/category', getProdsByCategory)
+router.get('/category/:category', getProdsByCategory)
 
 // Listar producto en especifico:
 router.get('/:id', getProdById)
